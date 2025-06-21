@@ -1,279 +1,60 @@
-/* General Styles */
+/* Global Styles */
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: #fff;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  font-family: 'Poppins', sans-serif; /* Uses Google Font */
+  background: #f0f9f4; /* Light green background */
+  margin: 0; /* Removes default margin */
+  padding: 20px; /* Adds space around edges */
 }
 
+/* Calculator Container */
 .container {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2.5rem;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 500px; /* Limits width on large screens */
+  margin: 0 auto; /* Centers horizontally */
+  background: white; /* White background */
+  padding: 30px; /* Inner spacing */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Subtle shadow */
 }
 
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  color: #fff;
-}
-
-p {
-  font-size: 1rem;
-  color: #e0e0e0;
-  margin-bottom: 2rem;
-}
-
-/* Form Styles */
+/* Form Inputs */
 .form-group {
-  margin-bottom: 1.5rem;
-  text-align: left;
+  margin-bottom: 15px; /* Space between input groups */
 }
 
 label {
-  display: block;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  color: #e0e0e0;
+  display: block; /* Makes labels appear above inputs */
+  margin-bottom: 5px; /* Space between label and input */
+  font-weight: bold;
 }
 
 input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  width: 100%; /* Full width */
+  padding: 10px; /* Comfortable typing space */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 5px; /* Slightly rounded */
 }
 
-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-input:focus {
-  border-color: #00ff88;
-  background: rgba(255, 255, 255, 0.2);
-  outline: none;
-}
-
-.calculate-btn {
-  background: linear-gradient(135deg, #00ff88, #00b372);
-  color: #fff;
+/* Button Styles */
+button {
+  background: #4CAF50; /* Green color */
+  color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 12px 20px; /* Vertical and horizontal padding */
   border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-  margin-top: 1rem;
+  cursor: pointer; /* Changes mouse to hand icon */
+  width: 100%; /* Full width button */
+  font-size: 16px; /* Larger text */
 }
 
-.calculate-btn:hover {
-  background: linear-gradient(135deg, #00b372, #00ff88);
-  transform: translateY(-2px);
+button:hover {
+  background: #45a049; /* Darker green on hover */
 }
 
-/* Result Styles */
+/* Results Section */
 .result {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-/* General Styles */
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: #fff;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.container {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2.5rem;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  color: #fff;
-}
-
-p {
-  font-size: 1rem;
-  color: #e0e0e0;
-  margin-bottom: 2rem;
-}
-
-/* Form Styles */
-.form-group {
-  margin-bottom: 1.5rem;
-  text-align: left;
-}
-
-label {
-  display: block;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  color: #e0e0e0;
-}
-
-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-input:focus {
-  border-color: #00ff88;
-  background: rgba(255, 255, 255, 0.2);
-  outline: none;
-}
-
-.calculate-btn {
-  background: linear-gradient(135deg, #00ff88, #00b372);
-  color: #fff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-  margin-top: 1rem;
-}
-
-.calculate-btn:hover {
-  background: linear-gradient(135deg, #00b372, #00ff88);
-  transform: translateY(-2px);
-}
-
-/* Result Styles */
-.result {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  margin-top: 20px;
+  padding: 15px;
+  background: #e8f5e9; /* Light green background */
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-#footprintValue {
-  font-size: 3rem;
-  font-weight: 600;
-  color: #00ff88;
-  margin: 0.5rem 0;
-}
-
-.result p {
-  margin: 0;
-  color: #e0e0e0;
-}
-
-/* Share Button */
-.share-btn {
-  background: linear-gradient(135deg, #4285F4, #34A853);
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.share-btn:hover {
-  background: linear-gradient(135deg, #34A853, #4285F4);
-}
-
-/* Eco Tips */
-.eco-tips {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: rgba(0, 255, 136, 0.1);
-  border-radius: 10px;
-  border: 1px solid rgba(0, 255, 136, 0.3);
-}
-
-/* Progress Bar */
-.earth-progress {
-  margin: 2rem 0;
-}
-
-.progress-bar {
-  height: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  position: relative;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #00ff88, #00b372);
-  border-radius: 4px;
-  transition: width 0.5s ease;
-}
-
-.earth-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Chart */
-.comparison-chart {
-  margin-top: 2rem;
-}
-
-/* Fun Facts */
-.fun-fact {
-  padding: 1rem;
-  margin: 1rem 0;
-  background: rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #00ff88;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-  .container {
-    padding: 1rem;
-    margin: 1rem;
-    width: auto;
-  }
-  input, button {
-    width: 100% !important;
-  }
+  display: none; /* Hidden by default */
 }
