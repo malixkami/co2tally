@@ -1,37 +1,17 @@
 const ecoTips = [
-const ecoTips = [
-  "Switching to LED bulbs can save 75% of lighting energy!",
-  "A vegetarian meal saves 50% CO2 compared to beef.",
-  "Line-drying clothes cuts dryer energy use by 100%!",
-  "Public transport emits 50% less CO2 than private cars."
-];
-
-const funFacts = [
-  "🌳 It takes 7 trees 1 year to absorb 1 ton of CO2!",
-  "🌊 Oceans absorb 25% of all CO2 emissions!",
-  "🚲 Cycling 10km daily saves 700kg CO2/year!",
-  "💡 Unplugging devices saves 10% home energy!"
-];
-
-// ... (keep all your existing functions) ...
-
-// Share Functionality
-document.getElementById('shareBtn')?.addEventListener('click', async () => {
-  const footprint = document.getElementById('footprintValue').textContent;
-  const reaction = document.querySelector('#result h2').textContent;
+document.getElementById('carbonForm').addEventListener('submit', function(e) {
+  e.preventDefault();
   
-  try {
-    await navigator.share({
-      title: "My Carbon Footprint",
-      text: `${reaction}\n🌱 My footprint: ${footprint} tons CO₂/year (Global avg: 4.8 tons)\nCalculate yours!`,
-      url: window.location.href
-    });
-  } catch (err) {
-    // Fallback
-    const shareText = `${reaction}\nMy carbon footprint: ${footprint} tons CO₂/year\nGlobal average: 4.8 tons\n\nCalculate yours: ${window.location.href}`;
-    prompt("Copy this message to share:", shareText);
-  }
-});
+  const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+  const gas = parseFloat(document.getElementById('gas').value) || 0;
+  const miles = parseFloat(document.getElementById('miles').value) || 0;
+  const flights = parseFloat(document.getElementById('flights').value) || 0;
 
-// Initialize chart with 0 value on load
-showChart(0);
+  const carbonFootprint = (electricity * 0.000707) + (gas * 0.005302) + 
+                         (miles * 0.000404) + (flights * 0.18);
+
+  document.getElementById('footprintValue').textContent = carbonFootprint.toFixed(2);
+  document.getElementById('result').style.display = 'block';
+  
+  console.log("Calculation complete!"); // Check if this appears in console
+});
