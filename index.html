@@ -5,58 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carbon Footprint Calculator</title>
     <style>
-        :root {
-            --primary: #2E8B57;
-            --secondary: #3CB371;
-            --light: #F0FFF0;
-            --dark: #228B22;
-            --text: #333333;
-            --highlight: #98FB98;
-        }
-        
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            color: var(--text);
+            line-height: 1.6;
         }
-        
         h1, h2 {
-            color: var(--primary);
-            border-bottom: 2px solid var(--highlight);
+            color: #2E8B57;
+            border-bottom: 2px solid #98FB98;
             padding-bottom: 5px;
         }
-        
-        .input-group {
-            margin-bottom: 15px;
-            padding: 15px;
-            background-color: var(--light);
-            border-radius: 8px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        input[type="number"] {
+        table {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 5px;
+            border-collapse: collapse;
+            margin: 20px 0;
         }
-        
-        .unit {
-            font-size: 0.9em;
-            color: #666;
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
-        
+        th {
+            background-color: #F0FFF0;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ddd;
+            margin: 30px 0;
+        }
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: #228B22;
+        }
         button {
-            background-color: var(--primary);
+            background-color: #2E8B57;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -65,71 +53,28 @@
             font-size: 16px;
             display: block;
             margin: 20px auto;
-            width: 200px;
         }
-        
         button:hover {
-            background-color: var(--dark);
-        }
-        
-        .result {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin: 20px 0;
-            color: var(--dark);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: var(--light);
-        }
-        
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: #ddd;
-            margin: 30px 0;
+            background-color: #228B22;
         }
     </style>
 </head>
 <body>
     <h1>Your Carbon Footprint</h1>
     
-    <div class="input-group">
-        <label for="electricity">Electricity</label>
-        <input type="number" id="electricity" value="500" min="0">
-        <span class="unit">kWh/month</span>
-    </div>
+    <h2>Electricity (kWh/month) <span id="electricityValue">500</span> kWh</h2>
+    <input type="range" id="electricity" min="0" max="2000" value="500" style="width:100%">
     
-    <div class="input-group">
-        <label for="gas">Natural Gas</label>
-        <input type="number" id="gas" value="50" min="0">
-        <span class="unit">therms/month</span>
-    </div>
+    <h2>Natural Gas <span id="gasValue">50</span> therms (therms/month)</h2>
+    <input type="range" id="gas" min="0" max="200" value="50" style="width:100%">
     
-    <div class="input-group">
-        <label for="miles">Miles Driven</label>
-        <input type="number" id="miles" value="500" min="0">
-        <span class="unit">miles/month</span>
-    </div>
+    <h2>Miles Driven <span id="milesValue">500</span> miles (miles/month)</h2>
+    <input type="range" id="miles" min="0" max="2000" value="500" style="width:100%">
     
-    <div class="input-group">
-        <label for="flights">Short-haul Flights</label>
-        <input type="number" id="flights" value="2" min="0">
-        <span class="unit">flights/year</span>
-    </div>
+    <h2>Short-haul Flights (per year) <span id="flightsValue">2</span> flights</h2>
+    <input type="range" id="flights" min="0" max="20" value="2" style="width:100%">
+    
+    <hr>
     
     <button id="calculateBtn">Calculate My Footprint</button>
     
@@ -153,33 +98,39 @@
     </table>
 
     <script>
+        // Update displayed values when sliders move
+        document.getElementById('electricity').addEventListener('input', function() {
+            document.getElementById('electricityValue').textContent = this.value;
+        });
+        document.getElementById('gas').addEventListener('input', function() {
+            document.getElementById('gasValue').textContent = this.value;
+        });
+        document.getElementById('miles').addEventListener('input', function() {
+            document.getElementById('milesValue').textContent = this.value;
+        });
+        document.getElementById('flights').addEventListener('input', function() {
+            document.getElementById('flightsValue').textContent = this.value;
+        });
+
+        // Calculate footprint when button clicked
         document.getElementById('calculateBtn').addEventListener('click', function() {
-            // Get input values
-            const electricity = parseFloat(document.getElementById('electricity').value) || 0;
-            const gas = parseFloat(document.getElementById('gas').value) || 0;
-            const miles = parseFloat(document.getElementById('miles').value) || 0;
-            const flights = parseFloat(document.getElementById('flights').value) || 0;
+            // Get values
+            const electricity = parseInt(document.getElementById('electricity').value);
+            const gas = parseInt(document.getElementById('gas').value);
+            const miles = parseInt(document.getElementById('miles').value);
+            const flights = parseInt(document.getElementById('flights').value);
             
-            // Calculate carbon footprint (simplified calculation)
-            // Conversion factors (approximate):
-            // Electricity: 0.92 lbs CO2 per kWh
-            // Natural gas: 11.7 lbs CO2 per therm
-            // Driving: 0.404 lbs CO2 per mile
-            // Short-haul flight: 440 lbs CO2 per flight
+            // Calculate (simplified CO2 emissions)
+            const electricityCO2 = electricity * 0.92; // lbs CO2 per kWh
+            const gasCO2 = gas * 11.7; // lbs CO2 per therm
+            const milesCO2 = miles * 0.404 * 12; // lbs CO2 per mile (monthly to annual)
+            const flightsCO2 = flights * 440; // lbs CO2 per short-haul flight
             
-            const electricityCO2 = electricity * 0.92;
-            const gasCO2 = gas * 11.7;
-            const milesCO2 = miles * 0.404 * 12; // Monthly to annual
-            const flightsCO2 = flights * 440;
-            
-            // Total in lbs, converted to metric tons (1 ton = 2204.62 lbs)
+            // Convert to metric tons (1 ton = 2204.62 lbs)
             const totalCO2 = (electricityCO2 + gasCO2 + milesCO2 + flightsCO2) / 2204.62;
             
-            // Round to 1 decimal place
-            const roundedCO2 = Math.round(totalCO2 * 10) / 10;
-            
-            // Display result
-            document.getElementById('result').textContent = roundedCO2 + ' tons CO₂/year';
+            // Display result rounded to 1 decimal
+            document.getElementById('result').textContent = Math.round(totalCO2 * 10) / 10 + ' tons CO₂/year';
         });
     </script>
 </body>
