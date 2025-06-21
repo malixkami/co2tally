@@ -114,45 +114,58 @@ input:focus {
   background: rgba(0, 255, 136, 0.1);
   border-radius: 10px;
   border: 1px solid rgba(0, 255, 136, 0.3);
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.earth-progress {
-  margin: 2rem 0;
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.progress-bar {
-  height: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  position: relative;
+/* ... (keep all your existing CSS) ... */
+
+/* Share Button Styles */
+.share-btn {
+  background: linear-gradient(135deg, #4285F4, #34A853);
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #00ff88, #00b372);
-  border-radius: 4px;
-  transition: width 0.5s ease;
+.share-btn:hover {
+  background: linear-gradient(135deg, #34A853, #4285F4);
 }
 
-.earth-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  animation: float 3s ease-in-out infinite;
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+    margin: 1rem;
+    width: auto;
+  }
+  input, button {
+    width: 100% !important;
+  }
 }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.comparison-chart {
-  margin-top: 2rem;
-}
-
-/* Fun Facts Styling */
-.fun-fact {
-  padding: 1rem;
-  margin: 1rem 0;
   background: rgba(255, 255, 255, 0.1);
   border-left: 4px solid #00ff88;
 }
