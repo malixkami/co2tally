@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoFootprint - Carbon Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Carbon Footprint Calculator</title>
     <style>
         :root {
             --primary: #2E8B57;
@@ -17,320 +15,171 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #E6F7E6, #C1F0C1);
-            margin: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             color: var(--text);
         }
         
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 100, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background-color: var(--primary);
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-        
-        .content {
-            padding: 25px;
-        }
-        
-        .input-section, .results-section, .tips-section, .impact-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: var(--light);
-        }
-        
-        .input-item {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .input-item label {
-            width: 200px;
-            font-weight: 600;
-        }
-        
-        .input-value {
-            font-weight: bold;
-            color: var(--dark);
-        }
-        
-        .calculate-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            display: block;
-            margin: 20px auto;
-            transition: all 0.3s;
-        }
-        
-        .calculate-btn:hover {
-            background-color: var(--dark);
-            transform: translateY(-2px);
-        }
-        
-        .results-section h2, .tips-section h2, .impact-section h2 {
+        h1, h2 {
             color: var(--primary);
             border-bottom: 2px solid var(--highlight);
-            padding-bottom: 8px;
+            padding-bottom: 5px;
+        }
+        
+        .input-group {
             margin-bottom: 15px;
-        }
-        
-        .footprint-result {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--dark);
-            text-align: center;
-            margin: 15px 0;
-        }
-        
-        .comparison {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .comparison-item {
-            padding: 10px;
-        }
-        
-        .comparison-item strong {
-            display: block;
-            font-size: 18px;
-            color: var(--dark);
-        }
-        
-        .fun-fact {
-            font-style: italic;
-            background-color: white;
             padding: 15px;
+            background-color: var(--light);
             border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid var(--primary);
         }
         
-        .new-fact-btn {
-            background-color: var(--secondary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         
-        .impact-items {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        
-        .impact-item {
-            text-align: center;
-            padding: 10px;
-            margin: 5px;
-            background-color: white;
-            border-radius: 8px;
-            min-width: 150px;
-        }
-        
-        .impact-item i {
-            color: var(--primary);
-            font-size: 24px;
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             margin-bottom: 5px;
         }
         
-        .impact-value {
+        .unit {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+            width: 200px;
+        }
+        
+        button:hover {
+            background-color: var(--dark);
+        }
+        
+        .result {
+            font-size: 24px;
             font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
             color: var(--dark);
         }
         
-        .social-share {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 20px 0;
         }
         
-        .social-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .twitter { background-color: #1DA1F2; }
-        .facebook { background-color: #4267B2; }
-        .linkedin { background-color: #0077B5; }
-        
-        .footer {
+        th, td {
+            padding: 10px;
             text-align: center;
-            padding: 15px;
-            background-color: var(--light);
-            font-size: 14px;
+            border: 1px solid #ddd;
         }
         
-        @media (max-width: 600px) {
-            .input-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .input-item label {
-                margin-bottom: 5px;
-                width: auto;
-            }
-            
-            .comparison, .impact-items {
-                flex-direction: column;
-            }
+        th {
+            background-color: var(--light);
+        }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ddd;
+            margin: 30px 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Your Carbon Footprint</h1>
-        </div>
-        
-        <div class="content">
-            <div class="input-section">
-                <div class="input-item">
-                    <label>Electricity (kWh/month)</label>
-                    <span class="input-value">500 kWh</span>
-                </div>
-                <div class="input-item">
-                    <label>Natural Gas (therms/month)</label>
-                    <span class="input-value">50 therms</span>
-                </div>
-                <div class="input-item">
-                    <label>Miles Driven (miles/month)</label>
-                    <span class="input-value">500 miles</span>
-                </div>
-                <div class="input-item">
-                    <label>Short-haul Flights (per year)</label>
-                    <span class="input-value">2 flights</span>
-                </div>
-                
-                <button class="calculate-btn">Calculate My Footprint</button>
-            </div>
-            
-            <div class="results-section">
-                <h2>Your Results</h2>
-                <div class="footprint-result">0 tons CO₂/year</div>
-                
-                <div class="comparison">
-                    <div class="comparison-item">
-                        <span>Global Average</span>
-                        <strong>4.8 tons</strong>
-                    </div>
-                    <div class="comparison-item">
-                        <span>US Average</span>
-                        <strong>16 tons</strong>
-                    </div>
-                    <div class="comparison-item">
-                        <span>Climate Target</span>
-                        <strong>2 tons</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="tips-section">
-                <h2>Eco Tips For You</h2>
-                
-                <h3>Did You Know?</h3>
-                <div class="fun-fact">
-                    A single flight from NYC to London produces about 1 ton of CO₂ per passenger.
-                </div>
-                <button class="new-fact-btn">Show Another Fact</button>
-            </div>
-            
-            <div class="impact-section">
-                <h2>Your Impact Visualized</h2>
-                
-                <div class="impact-items">
-                    <div class="impact-item">
-                        <i class="fas fa-car"></i>
-                        <div>Equivalent to driving</div>
-                        <div class="impact-value">0 miles</div>
-                    </div>
-                    <div class="impact-item">
-                        <i class="fas fa-tree"></i>
-                        <div>Needs</div>
-                        <div class="impact-value">0 trees</div>
-                        <div>to absorb</div>
-                    </div>
-                    <div class="impact-item">
-                        <i class="fas fa-trash"></i>
-                        <div>Like throwing away</div>
-                        <div class="impact-value">0 trash bags</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin: 20px 0;">
-                Share your results and encourage others to calculate their footprint!
-            </div>
-            
-            <div class="social-share">
-                <button class="social-btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
-                <button class="social-btn facebook"><i class="fab fa-facebook"></i> Facebook</button>
-                <button class="social-btn linkedin"><i class="fab fa-linkedin"></i> LinkedIn</button>
-            </div>
-        </div>
-        
-        <div class="footer">
-            © 2023 EcoFootprint Calculator | Make a difference today
-        </div>
+    <h1>Your Carbon Footprint</h1>
+    
+    <div class="input-group">
+        <label for="electricity">Electricity</label>
+        <input type="number" id="electricity" value="500" min="0">
+        <span class="unit">kWh/month</span>
     </div>
+    
+    <div class="input-group">
+        <label for="gas">Natural Gas</label>
+        <input type="number" id="gas" value="50" min="0">
+        <span class="unit">therms/month</span>
+    </div>
+    
+    <div class="input-group">
+        <label for="miles">Miles Driven</label>
+        <input type="number" id="miles" value="500" min="0">
+        <span class="unit">miles/month</span>
+    </div>
+    
+    <div class="input-group">
+        <label for="flights">Short-haul Flights</label>
+        <input type="number" id="flights" value="2" min="0">
+        <span class="unit">flights/year</span>
+    </div>
+    
+    <button id="calculateBtn">Calculate My Footprint</button>
+    
+    <hr>
+    
+    <h1>Your Results</h1>
+    
+    <div class="result" id="result">0 tons CO₂/year</div>
+    
+    <table>
+        <tr>
+            <th>Global Average</th>
+            <th>US Average</th>
+            <th>Climate Target</th>
+        </tr>
+        <tr>
+            <td>4.8 tons</td>
+            <td>16 tons</td>
+            <td>2 tons</td>
+        </tr>
+    </table>
 
     <script>
-        // Simple script for the "Show Another Fact" button
-        const funFacts = [
-            "A single tree can absorb about 48 pounds of CO₂ per year.",
-            "The average American's carbon footprint is 16 tons per year.",
-            "If everyone in the U.S. reduced meat consumption by 25%, it would cut annual emissions by 1%.",
-            "A vegetarian diet can reduce your carbon footprint by up to 50%.",
-            "Unplugging electronics when not in use can save up to 10% of your home's energy.",
-            "A laptop uses up to 80% less electricity than a desktop computer.",
-            "Recycling aluminum saves 95% of the energy needed to make new aluminum.",
-            "A single flight from NYC to London produces about 1 ton of CO₂ per passenger.",
-            "Walking or biking instead of driving just 10 miles a week eliminates about 500 pounds of CO₂ emissions a year."
-        ];
-        
-        const factElement = document.querySelector('.fun-fact');
-        const newFactBtn = document.querySelector('.new-fact-btn');
-        
-        newFactBtn.addEventListener('click', () => {
-            const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
-            factElement.textContent = randomFact;
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            // Get input values
+            const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+            const gas = parseFloat(document.getElementById('gas').value) || 0;
+            const miles = parseFloat(document.getElementById('miles').value) || 0;
+            const flights = parseFloat(document.getElementById('flights').value) || 0;
+            
+            // Calculate carbon footprint (simplified calculation)
+            // Conversion factors (approximate):
+            // Electricity: 0.92 lbs CO2 per kWh
+            // Natural gas: 11.7 lbs CO2 per therm
+            // Driving: 0.404 lbs CO2 per mile
+            // Short-haul flight: 440 lbs CO2 per flight
+            
+            const electricityCO2 = electricity * 0.92;
+            const gasCO2 = gas * 11.7;
+            const milesCO2 = miles * 0.404 * 12; // Monthly to annual
+            const flightsCO2 = flights * 440;
+            
+            // Total in lbs, converted to metric tons (1 ton = 2204.62 lbs)
+            const totalCO2 = (electricityCO2 + gasCO2 + milesCO2 + flightsCO2) / 2204.62;
+            
+            // Round to 1 decimal place
+            const roundedCO2 = Math.round(totalCO2 * 10) / 10;
+            
+            // Display result
+            document.getElementById('result').textContent = roundedCO2 + ' tons CO₂/year';
         });
     </script>
 </body>
