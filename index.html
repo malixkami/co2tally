@@ -3,84 +3,806 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carbon Footprint Calculator</title>
+    <title>EcoFootprint | Carbon Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00C853;
+            --secondary: #009624;
+            --accent: #64DD17;
+            --dark: #1B5E20;
+            --light: #E8F5E9;
+            --text: #263238;
+            --highlight: #B9F6CA;
+            --shadow: 0 8px 20px rgba(0, 200, 83, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5, #E8F5E9);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .calculator-container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .logo h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 200, 83, 0.1);
+        }
+        
+        .input-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 200, 83, 0.15);
+        }
+        
+        .input-card h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .input-card h3 i {
+            margin-right: 12px;
+            color: var(--primary);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .slider-container {
+            position: relative;
+            margin: 25px 0;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e0e0e0;
+            outline: none;
+            border-radius: 10px;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
+        }
+        
+        .value-display {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .value-display::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--primary);
+        }
+        
+        .unit {
+            font-size: 0.9rem;
+            color: #757575;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .calculate-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 200, 83, 0.4);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .results-section {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            display: none;
+        }
+        
+        .results-section h2 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .results-section h2 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .footprint-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+        }
+        
+        .circle-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #f5f5f5;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .circle-fill {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0%, transparent 0%);
+            clip-path: circle(50% at 50% 50%);
+            transition: background 1s ease-out;
+        }
+        
+        .circle-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .circle-text span {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1;
+        }
+        
+        .circle-text small {
+            display: block;
+            font-size: 0.9rem;
+            color: #757575;
+            margin-top: 5px;
+        }
+        
+        .comparison {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .comparison-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 120px;
+            margin: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .comparison-item p {
+            font-size: 0.9rem;
+            color: #757575;
+        }
+        
+        .comparison-item strong {
+            display: block;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-top: 5px;
+        }
+        
+        .eco-tips {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .eco-tips h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .eco-tips h3 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .tips-list {
+            list-style-type: none;
+        }
+        
+        .tips-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .tips-list li i {
+            margin-right: 12px;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .impact-visualization {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .impact-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .impact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .impact-item i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .impact-item p {
+            font-size: 0.9rem;
+            color: #757575;
+        }
+        
+        .impact-item .impact-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 5px 0;
+        }
+        
+        .fun-fact {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fun-fact::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary);
+        }
+        
+        .fun-fact p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .new-fact-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .new-fact-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .social-share {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .social-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .social-btn i {
+            margin-right: 8px;
+        }
+        
+        .social-btn.twitter {
+            background: #1DA1F2;
+        }
+        
+        .social-btn.facebook {
+            background: #4267B2;
+        }
+        
+        .social-btn.linkedin {
+            background: #0077B5;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #757575;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .impact-visualization {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .comparison-item {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Your Carbon Footprint</h1>
-    
-    <h2>Electricity (kWh/month) <span id="electricityValue">500</span> kWh</h2>
-    <input type="range" id="electricity" min="0" max="2000" value="500" style="width:100%">
-    
-    <h2>Natural Gas <span id="gasValue">50</span> therms (therms/month)</h2>
-    <input type="range" id="gas" min="0" max="200" value="50" style="width:100%">
-    
-    <h2>Miles Driven <span id="milesValue">500</span> miles (miles/month)</h2>
-    <input type="range" id="miles" min="0" max="2000" value="500" style="width:100%">
-    
-    <h2>Short-haul Flights (per year) <span id="flightsValue">2</span> flights</h2>
-    <input type="range" id="flights" min="0" max="20" value="2" style="width:100%">
-    
-    <hr>
-    
-    <div style="text-align:center">
-        <button id="calculateBtn" style="background:none; border:none; font-size:inherit; cursor:pointer">
-            <h2>Calculate My Footprint</h2>
-        </button>
+    <div class="calculator-container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <h1>EcoFootprint</h1>
+            </div>
+            <p class="tagline">Calculate your environmental impact in minutes</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-section">
+                <div class="input-card">
+                    <h3><i class="fas fa-bolt"></i> Electricity Usage</h3>
+                    <div class="slider-container">
+                        <span class="value-display" id="electricityValue">500</span>
+                        <input type="range" min="0" max="2000" value="500" class="slider" id="electricity">
+                    </div>
+                    <p class="unit">kilowatt-hours per month</p>
+                </div>
+                
+                <div class="input-card">
+                    <h3><i class="fas fa-fire"></i> Natural Gas</h3>
+                    <div class="slider-container">
+                        <span class="value-display" id="gasValue">50</span>
+                        <input type="range" min="0" max="200" value="50" class="slider" id="gas">
+                    </div>
+                    <p class="unit">therms per month</p>
+                </div>
+                
+                <div class="input-card">
+                    <h3><i class="fas fa-car"></i> Vehicle Miles</h3>
+                    <div class="slider-container">
+                        <span class="value-display" id="milesValue">500</span>
+                        <input type="range" min="0" max="2000" value="500" class="slider" id="miles">
+                    </div>
+                    <p class="unit">miles driven per month</p>
+                </div>
+                
+                <div class="input-card">
+                    <h3><i class="fas fa-plane"></i> Air Travel</h3>
+                    <div class="slider-container">
+                        <span class="value-display" id="flightsValue">2</span>
+                        <input type="range" min="0" max="20" value="2" class="slider" id="flights">
+                    </div>
+                    <p class="unit">short-haul flights per year</p>
+                </div>
+                
+                <button class="calculate-btn" id="calculateBtn">
+                    <i class="fas fa-calculator"></i> Calculate My Footprint
+                </button>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <h2><i class="fas fa-chart-pie"></i> Your Carbon Footprint</h2>
+                
+                <div class="footprint-circle">
+                    <div class="circle-bg"></div>
+                    <div class="circle-fill" id="circleFill"></div>
+                    <div class="circle-text">
+                        <span id="footprintResult">0</span>
+                        <small>tons CO₂/year</small>
+                    </div>
+                </div>
+                
+                <div class="comparison">
+                    <div class="comparison-item">
+                        <p>Global Average</p>
+                        <strong>4.8 tons</strong>
+                    </div>
+                    <div class="comparison-item">
+                        <p>US Average</p>
+                        <strong>16 tons</strong>
+                    </div>
+                    <div class="comparison-item">
+                        <p>Climate Target</p>
+                        <strong>2 tons</strong>
+                    </div>
+                </div>
+                
+                <div class="eco-tips">
+                    <h3><i class="fas fa-lightbulb"></i> Ways to Reduce Your Footprint</h3>
+                    <ul class="tips-list" id="tipsList">
+                        <li><i class="fas fa-check-circle"></i> Switch to LED bulbs throughout your home</li>
+                        <li><i class="fas fa-check-circle"></i> Lower your thermostat by 2°F in winter</li>
+                        <li><i class="fas fa-check-circle"></i> Try meatless Mondays to reduce food emissions</li>
+                    </ul>
+                </div>
+                
+                <div class="impact-visualization">
+                    <div class="impact-item">
+                        <i class="fas fa-car"></i>
+                        <p>Equivalent to driving</p>
+                        <div class="impact-value" id="carMiles">0</div>
+                        <p>miles</p>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-tree"></i>
+                        <p>Needs</p>
+                        <div class="impact-value" id="treeCount">0</div>
+                        <p>trees to absorb</p>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-trash"></i>
+                        <p>Like throwing away</p>
+                        <div class="impact-value" id="trashBags">0</div>
+                        <p>trash bags</p>
+                    </div>
+                </div>
+                
+                <div class="fun-fact">
+                    <p id="funFact">A single tree can absorb about 48 pounds of CO₂ per year.</p>
+                    <button class="new-fact-btn" id="newFactBtn">Show Another Fact</button>
+                </div>
+                
+                <div class="social-share">
+                    <button class="social-btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
+                    <button class="social-btn facebook"><i class="fab fa-facebook"></i> Facebook</button>
+                    <button class="social-btn linkedin"><i class="fab fa-linkedin"></i> LinkedIn</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2023 EcoFootprint Calculator | Make a difference today
+        </div>
     </div>
-    
-    <hr>
-    
-    <h1>Your Results</h1>
-    
-    <div style="text-align:center; font-size:24px; margin:20px 0" id="result">0 tons CO₂/year</div>
-    
-    <table style="width:100%; border-collapse:collapse; margin:20px 0">
-        <tr>
-            <th style="padding:10px; border:1px solid #ddd">Global Average</th>
-            <th style="padding:10px; border:1px solid #ddd">US Average</th>
-            <th style="padding:10px; border:1px solid #ddd">Climate Target</th>
-        </tr>
-        <tr>
-            <td style="padding:10px; border:1px solid #ddd; text-align:center">4.8 tons</td>
-            <td style="padding:10px; border:1px solid #ddd; text-align:center">16 tons</td>
-            <td style="padding:10px; border:1px solid #ddd; text-align:center">2 tons</td>
-        </tr>
-    </table>
 
     <script>
-        // Update displayed values when sliders move
-        document.getElementById('electricity').addEventListener('input', function() {
-            document.getElementById('electricityValue').textContent = this.value;
-        });
-        document.getElementById('gas').addEventListener('input', function() {
-            document.getElementById('gasValue').textContent = this.value;
-        });
-        document.getElementById('miles').addEventListener('input', function() {
-            document.getElementById('milesValue').textContent = this.value;
-        });
-        document.getElementById('flights').addEventListener('input', function() {
-            document.getElementById('flightsValue').textContent = this.value;
-        });
-
-        // Calculate footprint when button clicked
-        document.getElementById('calculateBtn').addEventListener('click', function() {
-            // Get values
-            const electricity = parseInt(document.getElementById('electricity').value);
-            const gas = parseInt(document.getElementById('gas').value);
-            const miles = parseInt(document.getElementById('miles').value);
-            const flights = parseInt(document.getElementById('flights').value);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update displayed values when sliders move
+            const electricitySlider = document.getElementById('electricity');
+            const gasSlider = document.getElementById('gas');
+            const milesSlider = document.getElementById('miles');
+            const flightsSlider = document.getElementById('flights');
             
-            // Calculate (simplified CO2 emissions)
-            const electricityCO2 = electricity * 0.92; // lbs CO2 per kWh
-            const gasCO2 = gas * 11.7; // lbs CO2 per therm
-            const milesCO2 = miles * 0.404 * 12; // lbs CO2 per mile (monthly to annual)
-            const flightsCO2 = flights * 440; // lbs CO2 per short-haul flight
+            electricitySlider.addEventListener('input', function() {
+                document.getElementById('electricityValue').textContent = this.value;
+            });
             
-            // Convert to metric tons (1 ton = 2204.62 lbs)
-            const totalCO2 = (electricityCO2 + gasCO2 + milesCO2 + flightsCO2) / 2204.62;
+            gasSlider.addEventListener('input', function() {
+                document.getElementById('gasValue').textContent = this.value;
+            });
             
-            // Display result rounded to 1 decimal
-            document.getElementById('result').textContent = Math.round(totalCO2 * 10) / 10 + ' tons CO₂/year';
+            milesSlider.addEventListener('input', function() {
+                document.getElementById('milesValue').textContent = this.value;
+            });
+            
+            flightsSlider.addEventListener('input', function() {
+                document.getElementById('flightsValue').textContent = this.value;
+            });
+            
+            // Calculate button functionality
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            calculateBtn.addEventListener('click', calculateFootprint);
+            
+            // Fun facts array
+            const funFacts = [
+                "A single tree can absorb about 48 pounds of CO₂ per year.",
+                "The average American's carbon footprint is 16 tons per year - one of the highest rates in the world.",
+                "If everyone in the U.S. reduced meat consumption by 25%, it would cut annual emissions by 1%.",
+                "A vegetarian diet can reduce your carbon footprint by up to 50% compared to a meat-heavy diet.",
+                "Unplugging electronics when not in use can save up to 10% of your home's energy consumption.",
+                "A laptop uses up to 80% less electricity than a desktop computer.",
+                "Recycling aluminum saves 95% of the energy needed to make new aluminum.",
+                "If every household replaced one regular lightbulb with a CFL, it would prevent 90 billion pounds of greenhouse gases.",
+                "A single flight from NYC to London produces about 1 ton of CO₂ per passenger.",
+                "Walking or biking instead of driving just 10 miles a week eliminates about 500 pounds of CO₂ emissions a year."
+            ];
+            
+            // Display random fact
+            const funFactElement = document.getElementById('funFact');
+            const newFactBtn = document.getElementById('newFactBtn');
+            
+            function displayRandomFact() {
+                const randomIndex = Math.floor(Math.random() * funFacts.length);
+                funFactElement.textContent = funFacts[randomIndex];
+            }
+            
+            newFactBtn.addEventListener('click', displayRandomFact);
+            displayRandomFact(); // Show initial fact
+            
+            // Eco tips array
+            const ecoTips = [
+                { icon: "fa-bolt", text: "Switch to LED bulbs - they use 75% less energy than incandescent lighting." },
+                { icon: "fa-thermometer-half", text: "Lower your thermostat by 2°F in winter and raise it by 2°F in summer to save about 2,000 lbs of CO₂ annually." },
+                { icon: "fa-car", text: "Carpooling twice a week can reduce your carbon footprint by 1,600 pounds per year." },
+                { icon: "fa-shopping-bag", text: "Bring reusable bags when shopping to reduce plastic waste." },
+                { icon: "fa-utensils", text: "Have one meat-free day per week - livestock accounts for nearly 15% of global emissions." },
+                { icon: "fa-plug", text: "Unplug electronics when not in use - standby power accounts for 5-10% of residential energy use." },
+                { icon: "fa-recycle", text: "Recycle paper, glass, and metal to reduce landfill waste." },
+                { icon: "fa-bicycle", text: "Walk or bike for short trips instead of driving." },
+                { icon: "fa-sun", text: "Consider installing solar panels to reduce reliance on fossil fuels." },
+                { icon: "fa-leaf", text: "Plant native trees in your yard - they absorb CO₂ and provide shade." }
+            ];
+            
+            // Calculate carbon footprint
+            function calculateFootprint() {
+                // Get input values
+                const electricity = parseFloat(electricitySlider.value) || 0;
+                const gas = parseFloat(gasSlider.value) || 0;
+                const miles = parseFloat(milesSlider.value) || 0;
+                const flights = parseFloat(flightsSlider.value) || 0;
+                
+                // Calculate CO2 emissions (simplified calculations)
+                // Note: These are approximate values for demonstration
+                const electricityCO2 = electricity * 0.92; // lbs CO2 per kWh (US average)
+                const gasCO2 = gas * 11.7; // lbs CO2 per therm
+                const milesCO2 = miles * 0.404 * 12; // lbs CO2 per mile (monthly to annual)
+                const flightsCO2 = flights * 440; // lbs CO2 per short-haul flight
+                
+                // Convert to metric tons (1 ton = 2204.62 lbs)
+                const totalCO2 = (electricityCO2 + gasCO2 + milesCO2 + flightsCO2) / 2204.62;
+                
+                // Round to 1 decimal place
+                const roundedCO2 = Math.round(totalCO2 * 10) / 10;
+                
+                // Display result
+                document.getElementById('footprintResult').textContent = roundedCO2;
+                
+                // Update circle visualization (max at 20 tons for visualization purposes)
+                const percentage = Math.min((roundedCO2 / 20) * 100, 100);
+                document.getElementById('circleFill').style.background = `conic-gradient(var(--primary) ${percentage}%, transparent ${percentage}%)`;
+                
+                // Show results section
+                resultsSection.style.display = 'block';
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Generate personalized tips (3 random tips)
+                const tipsList = document.getElementById('tipsList');
+                tipsList.innerHTML = '';
+                const shuffledTips = [...ecoTips].sort(() => 0.5 - Math.random());
+                const selectedTips = shuffledTips.slice(0, 3);
+                
+                selectedTips.forEach(tip => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas ${tip.icon}"></i> ${tip.text}`;
+                    tipsList.appendChild(li);
+                });
+                
+                // Update impact visualization
+                document.getElementById('carMiles').textContent = Math.round(roundedCO2 * 1000);
+                document.getElementById('treeCount').textContent = Math.round(roundedCO2 * 20);
+                document.getElementById('trashBags').textContent = Math.round(roundedCO2 * 500);
+            }
         });
     </script>
 </body>
