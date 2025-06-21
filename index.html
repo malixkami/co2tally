@@ -1,37 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Metadata -->
-  <meta charset="UTF-8"> <!-- Character encoding -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobile responsive -->
-  <title>Carbon Calculator</title> <!-- Browser tab title -->
-  
-  <!-- External Resources -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"> <!-- Google Font -->
-  <link rel="stylesheet" href="style.css"> <!-- Your custom CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carbon Footprint Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-  <div class="container"> <!-- Main wrapper -->
-    <h1>🌎 Carbon Calculator</h1> <!-- Heading with emoji -->
-    
-    <!-- Input Form -->
-    <form id="carbonForm">
+  <div class="container">
+    <div class="header animate__animated animate__fadeInDown">
+      <h1>🌍 Carbon Footprint Calculator</h1>
+      <p>Calculate your carbon footprint and take a step towards a greener planet!</p>
+    </div>
+
+    <form id="carbonForm" class="animate__animated animate__fadeInUp">
       <div class="form-group">
-        <label>⚡ Electricity (kWh/month):</label>
-        <input type="number" id="electricity" required> <!-- Number input field -->
+        <label for="electricity">⚡ Electricity Usage (kWh):</label>
+        <input type="number" id="electricity" placeholder="Enter your monthly usage" required>
       </div>
-      <!-- More inputs... -->
       
-      <button type="submit">Calculate</button> <!-- Submit button -->
+      <div class="form-group">
+        <label for="gas">🔥 Natural Gas Usage (therms):</label>
+        <input type="number" id="gas" placeholder="Enter your monthly usage" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="miles">🚗 Miles Driven (miles):</label>
+        <input type="number" id="miles" placeholder="Enter your monthly miles" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="flights">✈️ Flights Taken (short-haul):</label>
+        <input type="number" id="flights" placeholder="Enter number of flights" required>
+      </div>
+      
+      <button type="submit" class="calculate-btn">Calculate Your Footprint</button>
     </form>
     
-    <!-- Results Section (hidden by default) -->
-    <div id="result" class="result" style="display:none;">
-      <h2>Your Footprint: <span id="footprintValue">0.00</span> tons CO₂</h2>
-      <div id="tips"></div> <!-- Tips will be inserted here by JavaScript -->
+    <div id="result" class="result" style="display: none;">
+      <h2>Your Carbon Footprint:</h2>
+      <p id="footprintValue">0.00</p>
+      <p>Metric Tons of CO<sub>2</sub> per year</p>
+      <button id="shareBtn" class="calculate-btn share-btn">
+        <i class="fas fa-share-alt"></i> Share Your Result
+      </button>
+    </div>
+
+    <div class="eco-tips">
+      <h3>🌱 Eco Tips for You</h3>
+      <div id="tips"></div>
+    </div>
+
+    <div class="earth-progress">
+      <div class="earth-icon">🌎</div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <div class="progress-labels">
+        <span>Your Footprint</span>
+        <span>Global Avg: 4.8 tons</span>
+      </div>
+    </div>
+
+    <div class="comparison-chart">
+      <canvas id="footprintChart"></canvas>
     </div>
   </div>
-  
-  <script src="script.js"></script> <!-- Your JavaScript file -->
+
+  <script src="script.js"></script>
 </body>
 </html>
